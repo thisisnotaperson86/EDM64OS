@@ -142,7 +142,6 @@ work/                 Clon local de ALTRA64; no se versiona
 - [Limitaciones conocidas](docs/KNOWN_ISSUES.md)
 - [Pruebas de guardado](docs/SAVE_TESTING.md)
 - [Solución de problemas](docs/TROUBLESHOOTING.md)
-- [Publicar en GitHub](docs/PUBLISH_GITHUB.md)
 - [Preparar una release](docs/RELEASE_CHECKLIST.md)
 - [Créditos](CREDITS.md)
 - [Contribuir](CONTRIBUTING.md)
