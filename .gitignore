@@ -1,0 +1,42 @@
+# Build workspace and output
+/work/
+/dist/*
+!/dist/.gitkeep
+/backups/
+/export/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# User content: never publish ROMs, saves, commercial artwork or private config
+*.z64
+*.n64
+*.v64
+*.rom
+*.nes
+*.sfc
+*.smc
+*.gb
+*.gbc
+*.mp3
+*.sra
+*.fla
+*.eep
+*.mpk
+LASTROM.CFG
+FAVORITES.TXT
+HISTORY.TXT
+
+# Local boxart batches and wallpapers (examples/.gitkeep remains tracked)
+/boxart-private/
+/wallpaper-private/

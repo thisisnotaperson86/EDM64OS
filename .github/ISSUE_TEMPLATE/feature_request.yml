@@ -1,0 +1,21 @@
+name: Propuesta de mejora
+description: Sugerir una función o mejora
+title: "[FEATURE] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema o necesidad
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Riesgos para carga, guardado o compatibilidad

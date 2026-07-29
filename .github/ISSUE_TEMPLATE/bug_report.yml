@@ -1,0 +1,42 @@
+name: Reporte de bug
+description: Informar un problema reproducible de NRMenu
+title: "[BUG] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: No adjuntes ROMs, BIOS ni partidas privadas.
+  - type: input
+    id: version
+    attributes:
+      label: Versión de NRMenu
+      placeholder: v1.0.0
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Hardware y firmware
+      placeholder: ED64 Plus, firmware v110
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+  - type: textarea
+    id: actual
+    attributes:
+      label: Resultado actual
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: SD, formato, región y otros datos

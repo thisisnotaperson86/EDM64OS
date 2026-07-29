@@ -1,0 +1,56 @@
+name: Build NRMenu
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout NRMenu
+        uses: actions/checkout@v4
+
+      - name: Clone ALTRA64 base
+        run: git clone --depth 1 https://github.com/ariahiro64/altra64.git work/altra64
+
+      - name: Apply NRMenu overrides
+        run: |
+          cp overrides/src/main.c work/altra64/src/main.c
+          cp overrides/src/menu_about.c work/altra64/src/menu_about.c
+          cp overrides/src/menu_controls.c work/altra64/src/menu_controls.c
+
+      - name: Build with upstream Docker image
+        run: |
+          docker run --rm -v "$PWD/work/altra64:/build" ghcr.io/ariahiro64/altra64:master make clean
+          docker run --rm -v "$PWD/work/altra64:/build" ghcr.io/ariahiro64/altra64:master make
+
+      - name: Verify ROM
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('work/altra64/bin/OS64P.v64')
+          b=p.read_bytes()
+          assert len(b)==4194304
+          assert b[:4]==bytes.fromhex('80 37 12 40')
+          assert b[32:52].decode('ascii','ignore').strip()=='ED64Plus OS'
+          for marker in (b'NRMenu v1.0',b'www.novenretro.com',b'AVISO DE USO',b'/ED64P/ALTRA64.INI'):
+              assert marker in b, marker
+          out=Path('dist/OS64P_NRMENU_v1.0.v64')
+          out.parent.mkdir(exist_ok=True)
+          out.write_bytes(b)
+          h=hashlib.sha256(b).hexdigest().upper()
+          Path(str(out)+'.sha256').write_text(f'{h}  {out.name}\n')
+          print(h)
+          PY
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NRMenu-v1.0-OS64P
+          path: |
+            dist/OS64P_NRMENU_v1.0.v64
+            dist/OS64P_NRMENU_v1.0.v64.sha256
