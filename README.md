@@ -2,7 +2,7 @@
 
 Frontend visual para **ED64 Plus**, basado en **ALTRA64**, con navegador de ROMs en dos paneles, carátulas, Favoritos e Historial.
 
-> **NRMenu es gratuito y no se comercializa.** No contiene ni distribuye ROMs, BIOS, emuladores, carátulas comerciales ni ningún otro contenido protegido. Su finalidad es educativa y de preservación. Se entrega sin garantía y se recomienda respaldar siempre la tarjeta SD y las partidas.
+> **NRMenu es gratuito y no se comercializa.** No contiene ni distribuye ROMs. Su finalidad es educativa y de preservación. Se entrega sin garantía y se recomienda respaldar siempre la tarjeta SD y las partidas.
 
 ## Estado del proyecto
 
@@ -154,10 +154,8 @@ La atribución detallada está en [CREDITS.md](CREDITS.md).
 
 ## Licencia y situación jurídica
 
-Los repositorios upstream describen ALTRA64 como código abierto, pero la rama usada para este proyecto no contiene un archivo de licencia en su raíz. Por esa razón, NRMenu **no intenta relicenciar** el código heredado. Se conservan los encabezados y atribuciones originales. Revisá [LICENSE.md](LICENSE.md) y [NOTICE.md](NOTICE.md) antes de redistribuir binarios o derivados.
+Los repositorios upstream describen ALTRA64 como código abierto, pero la rama usada para este proyecto no contiene un archivo de licencia en su raíz. Por esa razón, NRMenu **no intenta relicenciar** el código heredado. Se conservan los encabezados y atribuciones originales. 
 
 ## Aviso
 
 NRMenu no está afiliado con Nintendo, Krikzz, los fabricantes de ED64 Plus ni los titulares de los juegos. No se garantiza compatibilidad con todos los cartuchos, revisiones, ROM hacks, tarjetas SD, emuladores o sistemas de guardado. NovenRetro no se responsabiliza por pérdidas de datos o daños derivados del uso.
-
-Sitio del proyecto: [www.novenretro.com](https://www.novenretro.com)
