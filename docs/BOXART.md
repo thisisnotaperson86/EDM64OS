@@ -84,6 +84,4 @@ py tools\resize_boxart.py C:\ENTRADA C:\SALIDA_LOWRES --size 158x112
 
 El wrapper `scripts/resize-boxart.cmd` crea ambas carpetas automáticamente.
 
-## Contenido público
 
-No subas a GitHub carátulas comerciales sin autorización. El repositorio solo debe contener instrucciones, placeholders propios o arte con permiso explícito.

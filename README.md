@@ -216,7 +216,6 @@ work/                Clon local fijado de ALTRA64; no se versiona
 - [Carátulas](docs/BOXART.md)
 - [Arquitectura y puntos de extensión](docs/ARCHITECTURE.md)
 - [Procedencia reproducible de la fuente](docs/SOURCE_PROVENANCE.md)
-- [Opción de fork autocontenido](docs/FULL_FORK_OPTION.md)
 - [Limitaciones conocidas](docs/KNOWN_ISSUES.md)
 - [Pruebas de guardado](docs/SAVE_TESTING.md)
 - [Solución de problemas](docs/TROUBLESHOOTING.md)

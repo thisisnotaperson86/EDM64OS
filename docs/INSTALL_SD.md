@@ -10,7 +10,6 @@ Para una SD nueva:
 4. agregá únicamente ROMs obtenidas legalmente;
 5. expulsá la SD de forma segura.
 
-El paquete público no debería incluir ROMs, BIOS, saves personales ni arte comercial sin autorización.
 
 ## Opción B: actualizar una instalación existente
 

@@ -142,10 +142,3 @@ Las siguientes funciones se conservaron sin cambios respecto de la base funciona
 
 Sus hashes están documentados en `docs/CRITICAL_FUNCTION_VALIDATION.txt`.
 
-## Estrategia para futuras versiones
-
-1. No mover la base upstream sin una razón documentada.
-2. Probar cualquier cambio del commit o contenedor como una migración separada.
-3. Mantener un tag por release.
-4. Ejecutar verificación, build limpio y pruebas en hardware.
-5. No mezclar cambios visuales con modificaciones de guardado.
