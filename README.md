@@ -38,13 +38,13 @@ NRMenu-v1.0.x-ED64Plus-ReadyToUse.zip
 
 ### Actualización de una instalación existente de ALTRA64
 
-Descargá el archivo `.v64` de la Release, copialo a:
+Descargá el archivo `.v64` de la Release, renombralo como OS64P.v64 y copialo a:
 
 ```text
 ED64P\OS64P.v64
 ```
 
-y reemplazá el archivo anterior después de hacer un backup. La guía completa está en [docs/INSTALL_SD.md](docs/INSTALL_SD.md).
+Siempre reemplazá el archivo anterior después de hacer un backup. La guía completa está en [docs/INSTALL_SD.md](docs/INSTALL_SD.md).
 
 ## Principales funciones
 
