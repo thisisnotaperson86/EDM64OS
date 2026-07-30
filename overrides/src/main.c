@@ -241,7 +241,7 @@ int page = 0;
 int cursor = 0;
 direntry_t *list;
 
-// NRMENU_V10_TEST5B_UI_SAFE_FROM_TEST4B
+// NRMENU_V10_PUBLIC_RELEASE
 #define NR_LIST_CHARS 19
 static u8 nr_z_page = 0; /* 0=normal, 1=about, 2=controls, 3=disclaimer */
 #define NR_MAX_FAVORITES 64
@@ -3733,8 +3733,8 @@ void showDisclaimerScreen(display_context_t disp)
     printText("NRMenu es gratuito y", 4, -1, disp);
     printText("no se comercializa.", 4, -1, disp);
     printText(" ", 4, -1, disp);
-    printText("No incluye ni distribuye", 4, -1, disp);
-    printText("contenido protegido.", 4, -1, disp);
+    printText("NRMenu no incluye ni", 4, -1, disp);
+    printText("distribuye ROMs.", 4, -1, disp);
     printText(" ", 4, -1, disp);
     printText("Uso educativo y de", 4, -1, disp);
     printText("preservacion.", 4, -1, disp);

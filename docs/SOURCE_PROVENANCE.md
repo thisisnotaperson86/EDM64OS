@@ -5,17 +5,8 @@
 NRMenu v1.0 utiliza como base:
 
 ```text
-Repositorio:
-https://github.com/ariahiro64/altra64
-
-Commit exacto:
-666dee10724dd725183cf2183d67e7632c73b2de
-
-Fecha del commit upstream:
-14 de noviembre de 2023
-
-Mensaje:
-i guess he wants colored lists
+Repositorio: https://github.com/ariahiro64/altra64
+Commit: 666dee10724dd725183cf2183d67e7632c73b2de
 ```
 
 La revisión completa queda registrada en `build.env`.
@@ -28,11 +19,11 @@ La imagen Docker validada está fijada mediante digest:
 ghcr.io/ariahiro64/altra64@sha256:d2f82b3eabd75bae163fae707e701d1c85cd43c1c0a5ec880909495eb5abc14a
 ```
 
-Usar un digest evita que el tag `master` apunte en el futuro a una imagen diferente.
+Usar un digest evita que un tag cambiante produzca en el futuro un resultado diferente.
 
 ## Archivos reemplazados
 
-NRMenu sustituye únicamente:
+NRMenu sustituye:
 
 ```text
 src/main.c
@@ -40,40 +31,28 @@ src/menu_about.c
 src/menu_controls.c
 ```
 
-Los archivos finales se conservan en:
-
-```text
-overrides/src/
-```
+Los archivos se conservan en `overrides/src/`.
 
 ## Verificación
 
-Cada build genera `dist/BUILD_INFO.txt` con:
+Cada build genera `dist/BUILD_INFO.txt` con versión, nombre del ROM, tamaño, encabezado, SHA-256, commit upstream e imagen Docker.
 
-- versión del repositorio;
-- etiqueta del firmware;
-- nombre del ROM;
-- tamaño y encabezado;
-- SHA-256 del ROM;
-- commit exacto de ALTRA64;
-- imagen Docker exacta.
-
-GitHub Actions aplica la misma configuración que los scripts locales.
+GitHub Actions usa la misma configuración que los scripts locales.
 
 ## Proyectos relacionados
 
-El repositorio `Suprapote/Altra64`, archivado en 2024, fue consultado para documentar releases estables y limitaciones conocidas. No se incluyen sus assets.
+El historial de releases de `Suprapote/Altra64` se utiliza como referencia para documentar compatibilidad y limitaciones conocidas.
 
 ## Cambio de base upstream
 
-Actualizar el commit de ALTRA64 no debe tratarse como una modificación menor. El proceso recomendado es:
+Actualizar el commit de ALTRA64 no debe tratarse como una modificación menor:
 
 1. crear una rama específica;
 2. actualizar `ALTRA64_COMMIT`;
 3. revisar diferencias upstream;
 4. reaplicar los overrides;
-5. compilar;
-6. probar carpetas, Favoritos, Historial y ROMs;
+5. compilar desde limpio;
+6. probar navegación y ejecución;
 7. probar guardados en hardware;
 8. documentar el nuevo commit y digest;
-9. publicar una nueva release.
+9. publicar una nueva Release.

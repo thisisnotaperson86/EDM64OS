@@ -5,40 +5,30 @@
 1. Restaurar el `OS64P.v64` anterior.
 2. Verificar que el nuevo archivo mida exactamente 4.194.304 bytes.
 3. Verificar encabezado `80 37 12 40`.
-4. Confirmar que el archivo se llame exactamente `OS64P.v64`.
-5. Recompilar con:
-
-```powershell
-.\scripts\build.ps1 -Fresh
-```
+4. Confirmar que se llame exactamente `OS64P.v64`.
+5. Recompilar con `scripts\build.cmd -Fresh`.
 
 ## `Please insert SD card` o pantalla negra
 
-No asumir que es NRMenu. Revisar:
+Revisar formato FAT32, contactos y slot, estructura `ED64P`, archivo anterior y compatibilidad de la SD.
 
-- Formato FAT32.
-- Contactos y slot de la SD.
-- Estructura `ED64P`.
-- Archivo funcional anterior.
-- Compatibilidad de la tarjeta SD.
+## `B` no vuelve a la carpeta anterior
 
-## B no vuelve a la carpeta anterior
-
-La v1.0 incluye una corrección específica de la ruta padre. Confirmar que el binario provenga de estos overrides y que la pantalla de información diga `NRMenu v1.0`.
+NRMenu v1.0 incluye una corrección específica de la ruta padre. Confirmá que la pantalla de información indique `NRMenu v1.0`.
 
 ## La navegación se vuelve lenta
 
-- Desactivar `sound_on` y `bgm_on` en `ALTRA64.INI` para diagnosticar.
+- Desactivar temporalmente `sound_on` y `bgm_on` en `ALTRA64.INI`.
 - Verificar velocidad de la SD.
-- No usar PNG enormes; las imágenes de menú deben ser 92 × 65.
-- La carátula debe cargarse recién después de una pausa cercana a un segundo.
+- Usar imágenes de menú de 92 × 65.
+- La carátula debe cargar después de una pausa cercana a un segundo.
 
 ## No aparece una carátula
 
 - Confirmar el Game ID mostrado.
 - Usar los dos caracteres centrales en mayúsculas.
-- Ruta correcta: `ED64P/BOXART/menu/XX.png`.
-- PNG exacto de 92 × 65.
+- Ruta: `ED64P/BOXART/menu/XX.png`.
+- PNG de 92 × 65.
 - Añadir `00.png` como fallback.
 
 ## Favoritos o Historial vacíos
@@ -50,36 +40,23 @@ ED64P/NRDATA/FAVORITES.TXT
 ED64P/NRDATA/HISTORY.TXT
 ```
 
-La SD debe permitir escritura y las rutas deben seguir existiendo.
+La SD debe permitir escritura y las rutas registradas deben seguir existiendo.
 
 ## La instalación dice OK pero no arranca
 
-Una copia exitosa solo confirma que el archivo llegó a la SD, no que el ROM sea válido. Verificar siempre el binario antes de instalar. Los scripts actuales validan tamaño, encabezado, título y SHA-256.
+Una copia exitosa solo confirma que el archivo llegó a la SD. Los scripts verifican tamaño, encabezado, título y SHA-256; aun así, conservá siempre un backup probado.
 
 ## El build cambia sin modificar NRMenu
 
-Desde la revisión 1.0.1, el commit upstream y la imagen Docker están fijados en `build.env`. Confirmá que los scripts no fueron editados para volver a usar `master`.
-
-Ejecutá:
+Confirmá que `build.env` conserve el commit y digest fijados y que los scripts no hayan vuelto a usar `master`.
 
 ```bat
 scripts\verify-repository.cmd
 scripts\build.cmd -Fresh
 ```
 
-Revisá después:
+Revisá `dist\BUILD_INFO.txt`.
 
-```text
-dist\BUILD_INFO.txt
-```
+## El verificador falla
 
-## Falló la verificación del manifiesto
-
-Si el cambio fue intencional:
-
-```bat
-scripts\update-manifest.cmd
-scripts\verify-repository.cmd
-```
-
-No regeneres el manifiesto para ocultar modificaciones inesperadas de los overrides. Primero revisá `git diff`.
+Leé cada error. El verificador no exige hashes fijos del código; normalmente informa claves faltantes, enlaces locales rotos, imágenes ausentes, scripts `.cmd` con BOM o datos privados dentro del repositorio.

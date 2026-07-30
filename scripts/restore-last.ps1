@@ -1,5 +1,13 @@
-param([ValidatePattern('^[A-Za-z]$')][string]$DriveLetter = 'D')
+param([string]$DriveLetter = '')
 $ErrorActionPreference = 'Stop'
+$DriveLetter = $DriveLetter.Trim().TrimEnd(':')
+if (-not $DriveLetter) {
+    $DriveLetter = (Read-Host 'Letra de unidad de la SD (ejemplo E)').Trim().TrimEnd(':')
+}
+if ($DriveLetter -notmatch '^[A-Za-z]$') {
+    throw "Letra de unidad inválida: $DriveLetter"
+}
+$DriveLetter = $DriveLetter.ToUpperInvariant()
 $Root = Split-Path $PSScriptRoot -Parent
 $BackupRoot = Join-Path $Root 'backups'
 $Last = Join-Path $BackupRoot 'LAST_BACKUP.txt'

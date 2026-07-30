@@ -6,7 +6,7 @@
 
 Frontend visual para **ED64 Plus**, basado en **ALTRA64**, con navegador de ROMs en dos paneles, carátulas, Favoritos e Historial.
 
-> **NRMenu es gratuito y no se comercializa.** No contiene ni distribuye ROMs, BIOS, carátulas comerciales ni otro contenido protegido. Su finalidad es educativa y de preservación. Se entrega sin garantía y se recomienda respaldar siempre la tarjeta SD y las partidas.
+> **NRMenu es gratuito y no se comercializa.** Los paquetes oficiales no incluyen ROMs. Se distribuye con fines educativos y de preservación, sin garantía. Respaldá siempre la tarjeta SD y las partidas antes de instalar o actualizar.
 
 ## Estado del proyecto
 
@@ -16,35 +16,33 @@ Frontend visual para **ED64 Plus**, basado en **ALTRA64**, con navegador de ROMs
 **Base técnica fijada:** `ariahiro64/altra64@666dee10724dd725183cf2183d67e7632c73b2de`  
 **Contenedor fijado:** `ghcr.io/ariahiro64/altra64@sha256:d2f82b3eabd75bae163fae707e701d1c85cd43c1c0a5ec880909495eb5abc14a`
 
-NRMenu conserva las rutinas críticas de carga de ROM, emuladores y guardado de ALTRA64. La versión 1.0 fue validada en hardware real para navegación, carátulas, Favoritos, Historial, carpetas y arranque de juegos. Las limitaciones heredadas de ALTRA64 siguen siendo aplicables.
+NRMenu v1.0 fue desarrollado procurando conservar el comportamiento de carga, emulación y guardado de la base funcional de ALTRA64. Sus limitaciones heredadas siguen siendo aplicables.
 
 ## Descargas e instalación rápida
 
-La página de [Releases](https://github.com/NovenRetro/NRMenu/releases/latest) ofrece dos formas de instalación:
+La página de [Releases](https://github.com/NovenRetro/NRMenu/releases/latest) ofrece dos formas de instalación.
 
 ### Instalación completa en una SD nueva
 
-Descargá el paquete:
-
-```text
-NRMenu-v1.0.x-ED64Plus-ReadyToUse.zip
-```
+Descargá el paquete indicado como **Ready to Use** en la Release correspondiente.
 
 1. Formateá la tarjeta SD en FAT32.
 2. Extraé el contenido del ZIP en la raíz de la SD.
-3. Agregá únicamente ROMs obtenidas legalmente en las carpetas correspondientes.
+3. Agregá tus ROMs obtenidas legalmente en las carpetas correspondientes.
 4. Expulsá la SD de forma segura.
 5. Insertala en el ED64 Plus y encendé la consola.
 
-### Actualización de una instalación existente de ALTRA64
+El contenido exacto del paquete se detalla en las notas de cada Release. **No incluye ROMs.**
 
-Descargá el archivo `.v64` de la Release, renombralo como OS64P.v64 y copialo a:
+### Actualización de una instalación existente de ALTRA64 o NRMenu
+
+Descargá el archivo `.v64` de la Release, renombralo como `OS64P.v64` y reemplazá:
 
 ```text
 ED64P\OS64P.v64
 ```
 
-Siempre reemplazá el archivo anterior después de hacer un backup. La guía completa está en [docs/INSTALL_SD.md](docs/INSTALL_SD.md).
+Hacé un backup antes de reemplazarlo. La guía completa está en [docs/INSTALL_SD.md](docs/INSTALL_SD.md).
 
 ## Principales funciones
 
@@ -108,9 +106,10 @@ Siempre reemplazá el archivo anterior después de hacer un backup. La guía com
 
 1. Windows 10 u 11 de 64 bits.
 2. [Git for Windows](https://git-scm.com/download/win).
-3. [Docker Desktop](https://www.docker.com/products/docker-desktop/), iniciado y configurado para contenedores Linux.
+3. [Docker Desktop](https://www.docker.com/products/docker-desktop/) iniciado con contenedores Linux.
 4. PowerShell 5.1 o PowerShell 7.
-5. Aproximadamente 3 GB libres para Docker, fuentes y objetos de compilación.
+5. Python 3 disponible en `PATH`.
+6. Aproximadamente 3 GB libres para Docker, fuentes y objetos de compilación.
 
 ### Compilar
 
@@ -118,39 +117,33 @@ Siempre reemplazá el archivo anterior después de hacer un backup. La guía com
 scripts\build.cmd
 ```
 
-El script:
+El script descarga el commit exacto de ALTRA64 definido en `build.env`, aplica los tres overrides de NRMenu, compila con la imagen Docker fijada por digest y verifica el ROM resultante.
 
-1. Descarga el commit exacto de ALTRA64 definido en `build.env`.
-2. Copia los tres archivos finales de NRMenu desde `overrides/src`.
-3. Compila con la imagen Docker fijada por digest.
-4. Verifica tamaño, encabezado, título interno y marcadores.
-5. Copia el resultado a:
+Salida:
 
 ```text
 dist\OS64P_NRMENU_v1.0.1.v64
+dist\OS64P_NRMENU_v1.0.1.v64.sha256
+dist\BUILD_INFO.txt
 ```
-
-6. Genera el SHA-256 y un archivo `BUILD_INFO.txt` con la procedencia exacta.
 
 Guía completa: [docs/BUILD_WINDOWS_DOCKER.md](docs/BUILD_WINDOWS_DOCKER.md)
 
 ## Instalar en la SD desde el repositorio
 
-Con la tarjeta asignada como `D:`:
+El instalador acepta la letra de unidad como argumento:
 
 ```bat
-scripts\install-sd.cmd
+scripts\install-sd.cmd E
 ```
 
-El instalador solo reemplaza:
+Al ejecutarlo sin argumento, solicita la letra de la SD. Solo reemplaza:
 
 ```text
-D:\ED64P\OS64P.v64
+E:\ED64P\OS64P.v64
 ```
 
-Antes crea un backup local. No modifica ROMs, partidas, `ALTRA64.INI`, carátulas, Favoritos, Historial ni wallpaper.
-
-Guía completa: [docs/INSTALL_SD.md](docs/INSTALL_SD.md)
+Antes crea un backup local y verifica el SHA-256 de la copia. Guía completa: [docs/INSTALL_SD.md](docs/INSTALL_SD.md)
 
 ## Carátulas
 
@@ -158,14 +151,14 @@ Vista previa del menú:
 
 ```text
 92 × 65 px
-D:\ED64P\BOXART\menu\XX.png
+ED64P\BOXART\menu\XX.png
 ```
 
 Pantalla grande de información:
 
 ```text
 158 × 112 px
-D:\ED64P\BOXART\lowres\XX.png
+ED64P\BOXART\lowres\XX.png
 ```
 
 Para ROMs de Nintendo 64, `XX` son los dos caracteres centrales del Game ID. Ejemplo: `NMQE` usa `MQ.png`.
@@ -180,32 +173,26 @@ Guía: [docs/BOXART.md](docs/BOXART.md)
 
 ## Verificar el repositorio
 
-Antes de crear un commit o una Release:
+Antes de enviar cambios:
 
 ```bat
 scripts\verify-repository.cmd
 ```
 
-Para regenerar el manifiesto SHA-256 después de cambios intencionales:
-
-```bat
-scripts\update-manifest.cmd
-```
-
-El manifiesto excluye su propio archivo y las carpetas locales de build, backups y exportación.
+La verificación revisa la configuración reproducible, la estructura mínima, los enlaces locales de la documentación, las capturas y la ausencia de datos privados u obvios archivos de ROM. No fija hashes de los fuentes C, por lo que permite contribuciones reales.
 
 ## Estructura del repositorio
 
 ```text
 build.env           Versiones fijadas de ALTRA64, Docker y salida
-overrides/src/      Archivos C finales que reemplazan a ALTRA64
+overrides/src/      Archivos C que reemplazan a la base de ALTRA64
 scripts/            Build, instalación, restauración y validación
-tools/              Conversor de carátulas y validadores
+tools/              Conversor de carátulas y verificador
 docs/               Documentación técnica y de usuario
-examples/           Plantilla de estructura para la SD
-.github/             Build automático y plantillas de issues
-dist/                Binario local generado; no se versiona
-work/                Clon local fijado de ALTRA64; no se versiona
+examples/           Plantilla de configuración
+.github/             Build automático y plantillas de colaboración
+dist/                Salida local generada; no se versiona
+work/                Clon temporal fijado de ALTRA64; no se versiona
 ```
 
 ## Documentación
@@ -219,21 +206,18 @@ work/                Clon local fijado de ALTRA64; no se versiona
 - [Limitaciones conocidas](docs/KNOWN_ISSUES.md)
 - [Pruebas de guardado](docs/SAVE_TESTING.md)
 - [Solución de problemas](docs/TROUBLESHOOTING.md)
-- [Preparar una release](docs/RELEASE_CHECKLIST.md)
-- [Publicar cambios en GitHub](docs/PUBLISH_GITHUB.md)
+- [Checklist de Release](docs/RELEASE_CHECKLIST.md)
 - [Créditos](CREDITS.md)
 - [Contribuir](CONTRIBUTING.md)
 
 ## Créditos y proyecto base
 
-NRMenu no existiría sin ALTRA64 y su larga cadena de forks y colaboradores. El proyecto reconoce especialmente a saturnu, parasyte, networkfusion, gameblabla, moparisthebest, ariahiro64/JonesAlmighty, Suprapote, Xalusc, nopjne, Skawo y a los demás contribuidores de ALTRA64/alt64, además de los proyectos y bibliotecas mencionados por el código original.
-
-La atribución detallada está en [CREDITS.md](CREDITS.md).
+NRMenu no existiría sin ALTRA64 y su cadena histórica de forks y colaboradores. La atribución detallada y separada por proyecto está en [CREDITS.md](CREDITS.md).
 
 ## Licencia y situación jurídica
 
-Los repositorios upstream describen ALTRA64 como código abierto, pero la rama usada para este proyecto no contiene un archivo de licencia en su raíz. Por esa razón, NRMenu **no intenta relicenciar** el código heredado. Se conservan los encabezados y atribuciones originales. Consultá [LICENSE.md](LICENSE.md) y [NOTICE.md](NOTICE.md).
+NRMenu no intenta relicenciar el código heredado de ALTRA64/alt64. Se conservan sus encabezados y atribuciones originales. Consultá [LICENSE.md](LICENSE.md) y [NOTICE.md](NOTICE.md).
 
 ## Aviso
 
-NRMenu no está afiliado con Nintendo, Krikzz, los fabricantes de ED64 Plus ni los titulares de los juegos. No se garantiza compatibilidad con todos los cartuchos, revisiones, ROM hacks, tarjetas SD, emuladores o sistemas de guardado. NovenRetro no se responsabiliza por pérdidas de datos o daños derivados del uso.
+NRMenu no está afiliado con Nintendo, Krikzz, los fabricantes de ED64 Plus ni los titulares de los juegos. No se garantiza compatibilidad con todos los cartuchos, revisiones, ROM hacks, tarjetas SD o sistemas de guardado. NovenRetro no se responsabiliza por pérdidas de datos o daños derivados del uso.

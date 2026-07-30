@@ -5,7 +5,7 @@ labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: No adjuntes ROMs, BIOS ni partidas privadas.
+      value: No adjuntes ROMs ni partidas privadas.
   - type: input
     id: version
     attributes:

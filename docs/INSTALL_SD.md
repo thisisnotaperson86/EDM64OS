@@ -4,29 +4,26 @@
 
 Para una SD nueva:
 
-1. descargá el paquete `NRMenu-v1.0.x-ED64Plus-ReadyToUse.zip` desde la [última Release](https://github.com/NovenRetro/NRMenu/releases/latest);
+1. descargá el paquete indicado como **Ready to Use** en la [última Release](https://github.com/NovenRetro/NRMenu/releases/latest);
 2. formateá la SD en FAT32;
 3. extraé el contenido en la raíz;
-4. agregá únicamente ROMs obtenidas legalmente;
+4. agregá tus ROMs obtenidas legalmente;
 5. expulsá la SD de forma segura.
 
+El contenido exacto del paquete se informa en la Release. No incluye ROMs.
 
 ## Opción B: actualizar una instalación existente
 
 ### Requisitos previos
 
-- Instalación funcional de ALTRA64/ED64 Plus.
+- Instalación funcional de ALTRA64 o NRMenu.
 - Tarjeta SD FAT32.
 - Carpeta `ED64P` en la raíz.
-- Binario compilado en:
+- Binario compilado en `dist/`.
 
-```text
-dist/OS64P_NRMENU_v1.0.1.v64
-```
+## Backup
 
-## Backup obligatorio
-
-Antes de instalar, copiá toda la SD a una carpeta de la PC. Como mínimo respaldá:
+Antes de instalar, respaldá toda la SD. Como mínimo:
 
 ```text
 ED64P\OS64P.v64
@@ -39,46 +36,33 @@ ED64P\MEMPAKS
 
 ## Instalación automática en Windows
 
-Con la SD como `D:`:
+Indicá la letra asignada a la SD:
 
 ```powershell
-.\scripts\install-sd.ps1 -DriveLetter D
+.\scripts\install-sd.ps1 -DriveLetter E
 ```
 
-O doble clic:
+O:
 
-```text
-scripts\install-sd.cmd
+```bat
+scripts\install-sd.cmd E
 ```
+
+Si ejecutás el `.cmd` sin argumento, solicitará la letra.
 
 El script:
 
 - lee el nombre de salida desde `build.env`;
 - verifica el ROM compilado;
 - respalda el `OS64P.v64` anterior en `backups/`;
-- reemplaza únicamente `D:\ED64P\OS64P.v64`;
+- reemplaza únicamente `E:\ED64P\OS64P.v64`;
 - compara el SHA-256 de origen y destino.
 
 ## Instalación manual
 
-1. Renombrá el menú anterior:
-
-```text
-D:\ED64P\OS64P.v64 → OS64P_BACKUP.v64
-```
-
-2. Copiá:
-
-```text
-dist\OS64P_NRMENU_v1.0.1.v64
-```
-
-3. Renombralo en la SD como:
-
-```text
-D:\ED64P\OS64P.v64
-```
-
+1. Renombrá el menú anterior como `OS64P_BACKUP.v64`.
+2. Copiá el `.v64` generado en `dist/`.
+3. Renombralo en la SD como `ED64P\OS64P.v64`.
 4. Expulsá la SD de forma segura.
 
 ## Primera prueba
@@ -93,8 +77,10 @@ D:\ED64P\OS64P.v64
 
 ## Restaurar el menú anterior
 
-```powershell
-.\scripts\restore-last.ps1 -DriveLetter D
+```bat
+scripts\restore-last.cmd E
 ```
 
-No apagues la consola durante operaciones de guardado. Después de guardar dentro de un juego, presioná Reset y esperá el regreso completo al menú antes de apagar.
+O ejecutá el comando sin letra para que la solicite.
+
+Después de guardar dentro de un juego, presioná Reset y esperá el regreso completo al menú antes de apagar.

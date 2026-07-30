@@ -36,4 +36,4 @@ dist/OS64P_NRMENU_v1.0.1.v64.sha256
 dist/BUILD_INFO.txt
 ```
 
-En macOS, Docker Desktop debe estar iniciado. En Linux, el usuario debe poder ejecutar Docker; según la instalación puede ser necesario anteponer `sudo` o pertenecer al grupo `docker`.
+En macOS, Docker Desktop debe estar iniciado. En Linux, el usuario debe tener permiso para ejecutar Docker.

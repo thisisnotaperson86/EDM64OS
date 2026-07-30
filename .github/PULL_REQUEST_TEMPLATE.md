@@ -10,7 +10,7 @@
 - [ ] Navegación y carpetas
 - [ ] Favoritos/Historial
 - [ ] ROM N64
-- [ ] Emuladores
+- [ ] Funciones adicionales afectadas
 - [ ] Guardados, si corresponde
 
 ## Hardware
@@ -20,6 +20,7 @@
 ## Procedencia
 
 - [ ] No se cambió `build.env`, o el cambio de commit/digest está justificado.
-- [ ] No se incluyeron ROMs, saves, credenciales o arte protegido.
+- [ ] No se incluyeron ROMs, saves, credenciales ni datos personales.
+- [ ] Los componentes de terceros conservan créditos y condiciones aplicables.
 
 ## Capturas o video

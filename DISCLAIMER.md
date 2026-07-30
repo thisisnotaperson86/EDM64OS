@@ -1,7 +1,7 @@
 # Aviso de uso
 
 - NRMenu es gratuito y no se comercializa.
-- No incluye ni distribuye ningún contenido protegido.
+- Los paquetes oficiales de NRMenu no incluyen ROMs.
 - Su finalidad es educativa y de preservación.
 - No se garantiza compatibilidad absoluta con todos los cartuchos, revisiones, ROM hacks, tarjetas SD o sistemas de guardado.
 - NovenRetro no se responsabiliza por pérdida de datos o daños derivados del uso.

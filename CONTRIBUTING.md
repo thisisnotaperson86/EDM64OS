@@ -6,8 +6,8 @@ Gracias por colaborar.
 
 1. Leé `docs/ARCHITECTURE.md`, `docs/SOURCE_PROVENANCE.md` y `docs/KNOWN_ISSUES.md`.
 2. Ejecutá `scripts/verify-repository.cmd`.
-3. Compilá `main` sin cambios con `scripts/build.cmd -Fresh` y confirmá que genera un ROM válido.
-4. Respaldá la SD y todas las partidas.
+3. Compilá `main` sin cambios con `scripts/build.cmd -Fresh`.
+4. Respaldá la SD y las partidas.
 5. Probá primero en emulador cuando sea posible y luego en hardware real.
 
 ## Flujo recomendado
@@ -16,28 +16,11 @@ Gracias por colaborar.
 git checkout -b feature/nombre-corto
 ```
 
-La fuente upstream reproducible se genera en:
+La fuente upstream reproducible se prepara en `work/altra64`. El commit upstream y la imagen Docker están fijados en `build.env`.
 
-```text
-work/altra64/src/
-```
-
-El commit upstream y la imagen Docker están fijados en:
-
-```text
-build.env
-```
-
-Cuando el cambio esté validado, copiá únicamente los archivos modificados a:
-
-```text
-overrides/src/
-```
-
-Después ejecutá:
+Cuando el cambio esté validado, copiá los archivos modificados a `overrides/src/` y ejecutá:
 
 ```bat
-scripts\update-manifest.cmd
 scripts\verify-repository.cmd
 scripts\build.cmd -Fresh
 ```
@@ -46,18 +29,17 @@ scripts\build.cmd -Fresh
 
 Cada PR debería indicar:
 
-- Qué problema resuelve.
-- Hardware y firmware utilizados.
-- Tarjeta SD y formato.
-- Juegos o funciones probadas.
-- Si modifica carga, CIC, guardado o emuladores.
-- Resultado de `scripts/verify-repository.cmd`.
-- Resultado de `scripts/build.cmd -Fresh`.
-- Capturas o video cuando el cambio sea visual.
+- qué problema resuelve;
+- hardware y firmware utilizados;
+- tarjeta SD y formato;
+- juegos o funciones probadas;
+- si modifica carga, CIC, guardado o emulación;
+- resultado del verificador y del build limpio;
+- capturas o video cuando el cambio sea visual.
 
 ## Zonas críticas
 
-No modifiques sin pruebas específicas:
+Los cambios en estas funciones requieren pruebas específicas:
 
 - `loadrom()`
 - `loadgenericrom()`
@@ -68,15 +50,13 @@ No modifiques sin pruebas específicas:
 - `readRomConfig()`
 - `readEmuConfig()`
 
-Los cambios en guardado deben probar EEPROM 4K, EEPROM 16K, SRAM y FlashRAM.
+Los cambios de guardado deberían probar EEPROM 4K, EEPROM 16K, SRAM y FlashRAM.
 
-## Contenido prohibido
+## Contenido que no debe subirse
 
-No subas:
-
-- ROMs o BIOS.
-- Emuladores si su licencia no permite redistribución.
-- Carátulas comerciales.
-- Partidas personales.
+- ROMs.
+- Partidas o historiales personales.
 - Tokens, claves o credenciales.
-- Archivos completos de una SD personal.
+- Copias completas de una SD personal.
+
+Todo componente de terceros agregado al proyecto debe conservar sus créditos, licencias y condiciones de redistribución.

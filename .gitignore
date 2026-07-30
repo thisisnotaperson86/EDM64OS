@@ -1,9 +1,8 @@
 # Build workspace and output
 /work/
-/dist/*
-!/dist/.gitkeep
+/dist/
 /backups/
-/export/
+/boxart-output/
 
 # Python
 __pycache__/
@@ -18,17 +17,15 @@ venv/
 Thumbs.db
 desktop.ini
 
-# User content: never publish ROMs, saves, commercial artwork or private config
-*.z64
+# Avoid accidentally committing game ROMs or private runtime data
 *.n64
-*.v64
+*.z64
 *.rom
 *.nes
 *.sfc
 *.smc
 *.gb
 *.gbc
-*.mp3
 *.sra
 *.fla
 *.eep
@@ -36,10 +33,3 @@ desktop.ini
 LASTROM.CFG
 FAVORITES.TXT
 HISTORY.TXT
-
-# Local boxart batches and wallpapers (examples/.gitkeep remains tracked)
-/boxart-private/
-/wallpaper-private/
-
-# Repository maintenance backups
-/repo-update-backups/

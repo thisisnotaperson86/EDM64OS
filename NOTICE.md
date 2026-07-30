@@ -7,6 +7,6 @@ NRMenu v1.0 es un frontend derivado de ALTRA64 para ED64 Plus.
 - Proyecto original: alt64, escrito originalmente por saturnu.
 - NRMenu por NovenRetro: https://www.novenretro.com
 
-No se incluyen ROMs, BIOS, carátulas comerciales, emuladores precompilados, partidas ni contenido privado de tarjetas SD.
+El repositorio y los paquetes oficiales de NRMenu no incluyen ROMs.
 
 Nintendo 64, Nintendo y los nombres de juegos pertenecen a sus respectivos titulares. ED64 Plus y EverDrive son marcas o productos de sus respectivos propietarios. NRMenu no está afiliado oficialmente con ellos.

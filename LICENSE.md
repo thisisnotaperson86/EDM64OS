@@ -8,9 +8,9 @@ Por lo tanto:
 
 1. Este repositorio **no intenta relicenciar** el código heredado.
 2. Deben conservarse todos los encabezados de copyright, créditos y avisos existentes.
-3. La publicación de este código no constituye una afirmación de titularidad exclusiva por parte de NovenRetro.
+3. La publicación no constituye una afirmación de titularidad exclusiva por parte de NovenRetro.
 4. Quien redistribuya, modifique o comercialice un derivado debe revisar la cadena completa de derechos y las licencias de cada dependencia.
-5. No se incluye ninguna autorización para distribuir ROMs, BIOS, arte comercial, música, marcas o contenido protegido de terceros.
+5. Este repositorio no concede derechos sobre ROMs de terceros.
 
 ## Contribuciones nuevas
 

@@ -1,1 +1,1 @@
-Colocar aquí PNG de 92 × 65 px. No se incluyen carátulas comerciales.
+Colocá aquí archivos PNG de 92 × 65 px para la vista previa del menú.

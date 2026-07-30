@@ -3,9 +3,9 @@
 [![Build NRMenu](https://github.com/NovenRetro/NRMenu/actions/workflows/build.yml/badge.svg)](https://github.com/NovenRetro/NRMenu/actions/workflows/build.yml)
 [![Latest release](https://img.shields.io/github/v/release/NovenRetro/NRMenu)](https://github.com/NovenRetro/NRMenu/releases/latest)
 
-NRMenu is a visual frontend for **ED64 Plus**, built on top of **ALTRA64**. It adds a two-panel browser, delayed box-art preview, persistent Favorites and History while keeping ALTRA64's critical ROM-loading, emulator and save routines unchanged.
+NRMenu is a visual frontend for **ED64 Plus**, based on **ALTRA64**. It adds a two-panel browser, delayed box-art preview, persistent Favorites and History.
 
-NRMenu is distributed free of charge. It does not include ROMs, BIOS files, commercial artwork or any other protected content. Use it at your own risk and always back up the SD card and save files.
+NRMenu is distributed free of charge. Official packages do not include ROMs. Use it at your own risk and always back up the SD card and save files.
 
 ## Status
 
@@ -50,9 +50,19 @@ NRMenu is distributed free of charge. It does not include ROMs, BIOS files, comm
   </tr>
 </table>
 
-## Quick build
+## Installation
 
-Requirements: Git, Docker Desktop and PowerShell.
+For a new SD card, download the **Ready to Use** package from the latest Release, extract it to the SD root and add your legally obtained ROMs. The package does not include ROMs.
+
+To update an existing ALTRA64 or NRMenu setup, replace:
+
+```text
+ED64P\OS64P.v64
+```
+
+## Build
+
+Requirements: Git, Docker Desktop, PowerShell and Python 3.
 
 ```bat
 scripts\build.cmd
@@ -64,12 +74,16 @@ Output:
 dist\OS64P_NRMENU_v1.0.1.v64
 ```
 
-Install to an SD card mounted as `D:`:
+The build uses the exact upstream commit and Docker image digest recorded in `build.env`.
+
+## Install a local build
+
+Pass the SD drive letter:
 
 ```bat
-scripts\install-sd.cmd
+scripts\install-sd.cmd E
 ```
 
-The build uses the exact upstream commit and Docker image digest recorded in `build.env`.
+Running the command without an argument prompts for the drive letter.
 
 For full documentation, see the Spanish [README](README.md) and the files under [docs](docs/).

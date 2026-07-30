@@ -19,66 +19,38 @@ Las versiones exactas están centralizadas en `build.env`.
 ## Base fijada
 
 ```text
-Repositorio:
-https://github.com/ariahiro64/altra64.git
-
-Commit:
-666dee10724dd725183cf2183d67e7632c73b2de
-
-Imagen Docker:
-ghcr.io/ariahiro64/altra64@sha256:d2f82b3eabd75bae163fae707e701d1c85cd43c1c0a5ec880909495eb5abc14a
+Repositorio: https://github.com/ariahiro64/altra64.git
+Commit: 666dee10724dd725183cf2183d67e7632c73b2de
+Imagen Docker: ghcr.io/ariahiro64/altra64@sha256:d2f82b3eabd75bae163fae707e701d1c85cd43c1c0a5ec880909495eb5abc14a
 ```
 
-No se compila desde `master` flotante. Esto evita que un cambio futuro upstream modifique silenciosamente el resultado de NRMenu v1.0.
+No se compila desde un `master` flotante. Esto evita que un cambio upstream modifique silenciosamente el resultado.
 
 ## Componentes
 
 ### `build.env`
 
-Fuente única de verdad para:
-
-- versión de la revisión del repositorio;
-- etiqueta del firmware;
-- nombre de salida;
-- repositorio upstream;
-- commit exacto de ALTRA64;
-- digest exacto de la imagen Docker.
+Fuente única de verdad para la versión del repositorio, etiqueta del firmware, nombre de salida, repositorio upstream, commit exacto e imagen Docker.
 
 ### `overrides/src/main.c`
 
-Contiene:
-
-- interfaz de dos paneles;
-- carga diferida de carátulas;
-- Browser, Favoritos e Historial;
-- persistencia de Favoritos e Historial;
-- navegación entre pestañas;
-- corrección del regreso a la carpeta padre;
-- desactivación de Top 15;
-- desactivación del borrado;
-- ventanas opacas y tercera pantalla Z.
+Contiene la interfaz de dos paneles, carga diferida de carátulas, Browser/Favoritos/Historial, persistencia, navegación, corrección de ruta padre, desactivación de Top 15 y borrado, ventanas opacas y tercera pantalla Z.
 
 ### `overrides/src/menu_about.c`
 
-Contiene la pantalla principal de información y créditos.
+Pantalla principal de información y créditos.
 
 ### `overrides/src/menu_controls.c`
 
-Contiene la ayuda de controles adaptada a NRMenu.
+Ayuda de controles adaptada a NRMenu.
 
 ### `scripts/bootstrap.ps1`
 
-Prepara `work/altra64` de forma determinista:
+Prepara `work/altra64` de forma determinista, descarga el commit exacto, verifica la revisión y aplica los overrides.
 
-1. inicializa o limpia el repositorio temporal;
-2. descarga el commit exacto;
-3. verifica el SHA;
-4. restaura la fuente upstream;
-5. aplica los tres overrides.
+### Scripts de build
 
-### `scripts/build.ps1` y `scripts/build.sh`
-
-Compilan con la imagen Docker fijada por digest y verifican:
+`scripts/build.ps1` y `scripts/build.sh` compilan con la imagen fijada y verifican:
 
 - tamaño exacto de 4 MiB;
 - encabezado N64 `80 37 12 40`;
@@ -86,29 +58,19 @@ Compilan con la imagen Docker fijada por digest y verifican:
 - marcadores de NRMenu;
 - ruta `/ED64P/ALTRA64.INI`.
 
-Además generan:
-
-```text
-dist/OS64P_NRMENU_v1.0.1.v64
-dist/OS64P_NRMENU_v1.0.1.v64.sha256
-dist/BUILD_INFO.txt
-```
-
-### `tools/manifest.py`
-
-Genera y valida `MANIFEST_SHA256.txt`. El manifiesto no se incluye a sí mismo y excluye carpetas locales de build, backup y exportación.
+Generan el ROM, su SHA-256 y `BUILD_INFO.txt` dentro de `dist/`.
 
 ### `tools/verify_repository.py`
 
-Comprueba:
+Realiza comprobaciones de mantenimiento que no bloquean cambios legítimos de código:
 
-- configuración reproducible;
-- correspondencia entre `VERSION` y `build.env`;
-- hashes de los tres overrides estables;
-- presencia y ubicación de las cuatro capturas;
-- workflow actualizado;
-- ausencia de ROMs, saves y datos privados;
-- validez del manifiesto.
+- configuración reproducible y versión;
+- presencia de los overrides y archivos mínimos;
+- enlaces locales de Markdown;
+- capturas referenciadas;
+- workflow de compilación;
+- ausencia de datos privados y archivos de ROM evidentes;
+- ausencia de BOM en scripts `.cmd`.
 
 ## Datos en la SD
 
@@ -121,15 +83,11 @@ NRMenu crea o utiliza:
 /ED64P/BOXART/lowres/XX.png
 ```
 
-La instalación desde el repositorio reemplaza únicamente:
-
-```text
-/ED64P/OS64P.v64
-```
+La instalación desde el repositorio reemplaza únicamente `/ED64P/OS64P.v64`.
 
 ## Zonas críticas heredadas
 
-Las siguientes funciones se conservaron sin cambios respecto de la base funcional validada:
+En NRMenu v1.0 se procuró conservar el comportamiento de estas funciones de ALTRA64:
 
 - `loadrom()`
 - `loadgenericrom()`
@@ -140,5 +98,4 @@ Las siguientes funciones se conservaron sin cambios respecto de la base funciona
 - `readRomConfig()`
 - `readEmuConfig()`
 
-Sus hashes están documentados en `docs/CRITICAL_FUNCTION_VALIDATION.txt`.
-
+Pueden modificarse en contribuciones futuras, pero requieren build limpio y pruebas específicas en hardware.
