@@ -40,3 +40,6 @@ HISTORY.TXT
 # Local boxart batches and wallpapers (examples/.gitkeep remains tracked)
 /boxart-private/
 /wallpaper-private/
+
+# Repository maintenance backups
+/repo-update-backups/

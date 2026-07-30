@@ -55,3 +55,31 @@ La SD debe permitir escritura y las rutas deben seguir existiendo.
 ## La instalación dice OK pero no arranca
 
 Una copia exitosa solo confirma que el archivo llegó a la SD, no que el ROM sea válido. Verificar siempre el binario antes de instalar. Los scripts actuales validan tamaño, encabezado, título y SHA-256.
+
+## El build cambia sin modificar NRMenu
+
+Desde la revisión 1.0.1, el commit upstream y la imagen Docker están fijados en `build.env`. Confirmá que los scripts no fueron editados para volver a usar `master`.
+
+Ejecutá:
+
+```bat
+scripts\verify-repository.cmd
+scripts\build.cmd -Fresh
+```
+
+Revisá después:
+
+```text
+dist\BUILD_INFO.txt
+```
+
+## Falló la verificación del manifiesto
+
+Si el cambio fue intencional:
+
+```bat
+scripts\update-manifest.cmd
+scripts\verify-repository.cmd
+```
+
+No regeneres el manifiesto para ocultar modificaciones inesperadas de los overrides. Primero revisá `git diff`.

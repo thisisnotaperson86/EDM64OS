@@ -4,10 +4,11 @@ Gracias por colaborar.
 
 ## Antes de modificar
 
-1. Leé `docs/ARCHITECTURE.md` y `docs/KNOWN_ISSUES.md`.
-2. Compilá `main` sin cambios y confirmá que genera un ROM válido.
-3. Respaldá la SD y todas las partidas.
-4. Probá primero en emulador cuando sea posible y luego en hardware real.
+1. Leé `docs/ARCHITECTURE.md`, `docs/SOURCE_PROVENANCE.md` y `docs/KNOWN_ISSUES.md`.
+2. Ejecutá `scripts/verify-repository.cmd`.
+3. Compilá `main` sin cambios con `scripts/build.cmd -Fresh` y confirmá que genera un ROM válido.
+4. Respaldá la SD y todas las partidas.
+5. Probá primero en emulador cuando sea posible y luego en hardware real.
 
 ## Flujo recomendado
 
@@ -15,13 +16,19 @@ Gracias por colaborar.
 git checkout -b feature/nombre-corto
 ```
 
-Trabajá sobre:
+La fuente upstream reproducible se genera en:
 
 ```text
 work/altra64/src/
 ```
 
-Cuando el cambio esté validado, copiá los archivos modificados a:
+El commit upstream y la imagen Docker están fijados en:
+
+```text
+build.env
+```
+
+Cuando el cambio esté validado, copiá únicamente los archivos modificados a:
 
 ```text
 overrides/src/
@@ -30,7 +37,9 @@ overrides/src/
 Después ejecutá:
 
 ```bat
-scripts\build.cmd
+scripts\update-manifest.cmd
+scripts\verify-repository.cmd
+scripts\build.cmd -Fresh
 ```
 
 ## Pull requests
@@ -42,7 +51,8 @@ Cada PR debería indicar:
 - Tarjeta SD y formato.
 - Juegos o funciones probadas.
 - Si modifica carga, CIC, guardado o emuladores.
-- Resultado de `scripts/build.cmd`.
+- Resultado de `scripts/verify-repository.cmd`.
+- Resultado de `scripts/build.cmd -Fresh`.
 - Capturas o video cuando el cambio sea visual.
 
 ## Zonas críticas

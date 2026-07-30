@@ -1,11 +1,11 @@
 # Arquitectura de NRMenu v1.0
 
-## Estrategia del repositorio
+## Resumen
 
-NRMenu se distribuye como una capa reproducible sobre ALTRA64:
+NRMenu utiliza un modelo **overlay reproducible**:
 
 ```text
-ariahiro64/altra64
+ALTRA64 fijado por commit
         +
 overrides/src/main.c
 overrides/src/menu_about.c
@@ -14,107 +14,138 @@ overrides/src/menu_controls.c
 NRMenu v1.0
 ```
 
-Esto evita duplicar todos los archivos heredados y mantiene visible qué piezas modifica NRMenu.
+Las versiones exactas están centralizadas en `build.env`.
 
-## Archivos modificados
+## Base fijada
 
-### `main.c`
+```text
+Repositorio:
+https://github.com/ariahiro64/altra64.git
+
+Commit:
+666dee10724dd725183cf2183d67e7632c73b2de
+
+Imagen Docker:
+ghcr.io/ariahiro64/altra64@sha256:d2f82b3eabd75bae163fae707e701d1c85cd43c1c0a5ec880909495eb5abc14a
+```
+
+No se compila desde `master` flotante. Esto evita que un cambio futuro upstream modifique silenciosamente el resultado de NRMenu v1.0.
+
+## Componentes
+
+### `build.env`
+
+Fuente única de verdad para:
+
+- versión de la revisión del repositorio;
+- etiqueta del firmware;
+- nombre de salida;
+- repositorio upstream;
+- commit exacto de ALTRA64;
+- digest exacto de la imagen Docker.
+
+### `overrides/src/main.c`
 
 Contiene:
 
-- Modos Browser/Favoritos/Historial.
-- Caché del Browser.
-- Persistencia de Favoritos e Historial.
-- Vista previa diferida.
-- Carátulas del panel derecho.
-- Navegación entre pestañas.
-- Corrección de carpeta padre.
-- Disclaimer.
-- Desactivación de Top 15 y borrado.
-- Ventanas secundarias opacas.
+- interfaz de dos paneles;
+- carga diferida de carátulas;
+- Browser, Favoritos e Historial;
+- persistencia de Favoritos e Historial;
+- navegación entre pestañas;
+- corrección del regreso a la carpeta padre;
+- desactivación de Top 15;
+- desactivación del borrado;
+- ventanas opacas y tercera pantalla Z.
 
-### `menu_about.c`
+### `overrides/src/menu_about.c`
 
-Muestra:
+Contiene la pantalla principal de información y créditos.
 
-- NRMenu v1.0.
-- Base ALTRA64.
-- Firmware ED64 detectado.
-- Créditos de ALTRA64 y NovenRetro.
+### `overrides/src/menu_controls.c`
 
-### `menu_controls.c`
+Contiene la ayuda de controles adaptada a NRMenu.
 
-Muestra los controles reales de NRMenu.
+### `scripts/bootstrap.ps1`
 
-## Datos persistentes
+Prepara `work/altra64` de forma determinista:
+
+1. inicializa o limpia el repositorio temporal;
+2. descarga el commit exacto;
+3. verifica el SHA;
+4. restaura la fuente upstream;
+5. aplica los tres overrides.
+
+### `scripts/build.ps1` y `scripts/build.sh`
+
+Compilan con la imagen Docker fijada por digest y verifican:
+
+- tamaño exacto de 4 MiB;
+- encabezado N64 `80 37 12 40`;
+- título interno `ED64Plus OS`;
+- marcadores de NRMenu;
+- ruta `/ED64P/ALTRA64.INI`.
+
+Además generan:
+
+```text
+dist/OS64P_NRMENU_v1.0.1.v64
+dist/OS64P_NRMENU_v1.0.1.v64.sha256
+dist/BUILD_INFO.txt
+```
+
+### `tools/manifest.py`
+
+Genera y valida `MANIFEST_SHA256.txt`. El manifiesto no se incluye a sí mismo y excluye carpetas locales de build, backup y exportación.
+
+### `tools/verify_repository.py`
+
+Comprueba:
+
+- configuración reproducible;
+- correspondencia entre `VERSION` y `build.env`;
+- hashes de los tres overrides estables;
+- presencia y ubicación de las cuatro capturas;
+- workflow actualizado;
+- ausencia de ROMs, saves y datos privados;
+- validez del manifiesto.
+
+## Datos en la SD
+
+NRMenu crea o utiliza:
 
 ```text
 /ED64P/NRDATA/FAVORITES.TXT
 /ED64P/NRDATA/HISTORY.TXT
+/ED64P/BOXART/menu/XX.png
+/ED64P/BOXART/lowres/XX.png
 ```
 
-Cada línea contiene la ruta completa de un juego.
-
-Límites:
+La instalación desde el repositorio reemplaza únicamente:
 
 ```text
-Favoritos: 64
-Historial: 20
+/ED64P/OS64P.v64
 ```
 
-## Modos de vista
+## Zonas críticas heredadas
 
-```c
-NR_VIEW_BROWSER
-NR_VIEW_FAVORITES
-NR_VIEW_HISTORY
-```
+Las siguientes funciones se conservaron sin cambios respecto de la base funcional validada:
 
-Al salir del Browser se guardan en RAM:
-
-- Carpeta actual.
-- Cursor.
-- Página.
-- Lista de entradas.
-
-Esto evita releer la carpeta al regresar desde Favoritos o Historial.
-
-## Vista previa
-
-El cambio de selección programa una carga pendiente. La imagen solo se procesa después de 15 ciclos del bucle principal. El menú duerme aproximadamente 60 ms por ciclo, por lo que la demora práctica ronda los 900 ms.
-
-Para ROMs N64 se leen 512 bytes del encabezado para obtener:
-
-- Título.
-- Game ID.
-- Región.
-- Tamaño.
-- Tipo de save según base de datos.
-
-La carátula se decodifica desde PNG y se mantiene en caché mientras no cambie la selección.
-
-## Funciones críticas conservadas
-
-La revisión estable verificó que estas funciones permanecieran idénticas a la base funcional:
-
-- `loadgenericrom()`
 - `loadrom()`
+- `loadgenericrom()`
+- `bootRom()`
 - `backupSaveData()`
 - `saveTypeFromSd()`
 - `saveTypeToSd()`
-- `bootRom()`
 - `readRomConfig()`
 - `readEmuConfig()`
 
-Los hashes usados durante esa validación están en `docs/CRITICAL_FUNCTION_VALIDATION.txt`.
+Sus hashes están documentados en `docs/CRITICAL_FUNCTION_VALIDATION.txt`.
 
-## Puntos recomendados para futuras mejoras
+## Estrategia para futuras versiones
 
-- Resolver boxart por CRC/Game ID completo.
-- Caché LRU de varias carátulas.
-- Demora configurable desde INI.
-- Internacionalización completa.
-- Eliminar código muerto de Top 15 después de pruebas exhaustivas.
-- Pruebas automatizadas de parseo de rutas y listas.
-- Integración con una base moderna como N64FlashcartMenu.
-- Aclarar formalmente la licencia upstream.
+1. No mover la base upstream sin una razón documentada.
+2. Probar cualquier cambio del commit o contenedor como una migración separada.
+3. Mantener un tag por release.
+4. Ejecutar verificación, build limpio y pruebas en hardware.
+5. No mezclar cambios visuales con modificaciones de guardado.

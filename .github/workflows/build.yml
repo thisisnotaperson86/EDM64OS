@@ -6,15 +6,36 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout NRMenu
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Clone ALTRA64 base
-        run: git clone --depth 1 https://github.com/ariahiro64/altra64.git work/altra64
+      - name: Load reproducible build configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -vE '^(#|$)' build.env >> "$GITHUB_ENV"
+
+      - name: Verify repository
+        run: python3 tools/verify_repository.py
+
+      - name: Fetch pinned ALTRA64 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p work/altra64
+          git -C work/altra64 init
+          git -C work/altra64 remote add origin "$ALTRA64_REPOSITORY"
+          git -C work/altra64 fetch --depth 1 origin "$ALTRA64_COMMIT"
+          git -C work/altra64 checkout --detach --force FETCH_HEAD
+          test "$(git -C work/altra64 rev-parse HEAD)" = "$ALTRA64_COMMIT"
 
       - name: Apply NRMenu overrides
         run: |
@@ -22,35 +43,76 @@ jobs:
           cp overrides/src/menu_about.c work/altra64/src/menu_about.c
           cp overrides/src/menu_controls.c work/altra64/src/menu_controls.c
 
-      - name: Build with upstream Docker image
+      - name: Build with pinned Docker image
+        shell: bash
         run: |
-          docker run --rm -v "$PWD/work/altra64:/build" ghcr.io/ariahiro64/altra64:master make clean
-          docker run --rm -v "$PWD/work/altra64:/build" ghcr.io/ariahiro64/altra64:master make
+          set -euo pipefail
+          docker pull "$ALTRA64_DOCKER_IMAGE"
+          docker run --rm -v "$PWD/work/altra64:/build" "$ALTRA64_DOCKER_IMAGE" make clean
+          docker run --rm -v "$PWD/work/altra64:/build" "$ALTRA64_DOCKER_IMAGE" make
 
-      - name: Verify ROM
+      - name: Verify ROM and record provenance
+        shell: bash
         run: |
+          set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
           import hashlib
-          p=Path('work/altra64/bin/OS64P.v64')
-          b=p.read_bytes()
-          assert len(b)==4194304
-          assert b[:4]==bytes.fromhex('80 37 12 40')
-          assert b[32:52].decode('ascii','ignore').strip()=='ED64Plus OS'
-          for marker in (b'NRMenu v1.0',b'www.novenretro.com',b'AVISO DE USO',b'/ED64P/ALTRA64.INI'):
-              assert marker in b, marker
-          out=Path('dist/OS64P_NRMENU_v1.0.v64')
-          out.parent.mkdir(exist_ok=True)
-          out.write_bytes(b)
-          h=hashlib.sha256(b).hexdigest().upper()
-          Path(str(out)+'.sha256').write_text(f'{h}  {out.name}\n')
-          print(h)
+          import os
+
+          source = Path("work/altra64/bin/OS64P.v64")
+          data = source.read_bytes()
+
+          assert len(data) == 4194304
+          assert data[:4] == bytes.fromhex("80 37 12 40")
+          assert data[32:52].decode("ascii", "ignore").strip() == "ED64Plus OS"
+
+          for marker in (
+              b"NRMenu v1.0",
+              b"www.novenretro.com",
+              b"AVISO DE USO",
+              b"/ED64P/ALTRA64.INI",
+          ):
+              assert marker in data, marker
+
+          output = Path("dist") / os.environ["NRMENU_OUTPUT_NAME"]
+          output.parent.mkdir(exist_ok=True)
+          output.write_bytes(data)
+
+          digest = hashlib.sha256(data).hexdigest().upper()
+          Path(str(output) + ".sha256").write_text(
+              f"{digest}  {output.name}\n",
+              encoding="ascii",
+          )
+
+          Path("dist/BUILD_INFO.txt").write_text(
+              "\n".join(
+                  [
+                      f"NRMenu repository release: {os.environ['NRMENU_RELEASE_VERSION']}",
+                      f"Firmware label: NRMenu v{os.environ['NRMENU_FIRMWARE_LABEL']}",
+                      f"Output: {output.name}",
+                      f"Size: {len(data)}",
+                      "Header: 80 37 12 40",
+                      "Internal title: ED64Plus OS",
+                      f"SHA256: {digest}",
+                      f"ALTRA64 repository: {os.environ['ALTRA64_REPOSITORY']}",
+                      f"ALTRA64 commit: {os.environ['ALTRA64_COMMIT']}",
+                      f"Docker image: {os.environ['ALTRA64_DOCKER_IMAGE']}",
+                  ]
+              )
+              + "\n",
+              encoding="utf-8",
+          )
+
+          print(digest)
           PY
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: NRMenu-v1.0-OS64P
+          name: NRMenu-v${{ env.NRMENU_RELEASE_VERSION }}-OS64P
+          if-no-files-found: error
           path: |
-            dist/OS64P_NRMENU_v1.0.v64
-            dist/OS64P_NRMENU_v1.0.v64.sha256
+            dist/${{ env.NRMENU_OUTPUT_NAME }}
+            dist/${{ env.NRMENU_OUTPUT_NAME }}.sha256
+            dist/BUILD_INFO.txt

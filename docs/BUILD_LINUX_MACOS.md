@@ -1,28 +1,39 @@
 # Compilar en Linux o macOS
 
-Requisitos:
+## Requisitos
 
 - Git.
 - Docker Engine o Docker Desktop.
 - Bash.
+- Python 3.
 
-Desde la raíz del repositorio:
+## Verificar
 
 ```sh
-chmod +x scripts/build.sh
+chmod +x scripts/*.sh
+./scripts/verify-repository.sh
+```
+
+## Compilar
+
+```sh
 ./scripts/build.sh
 ```
 
-Para volver a clonar ALTRA64:
+Para limpiar y volver a preparar el commit upstream fijado:
 
 ```sh
 ./scripts/build.sh --fresh
 ```
 
-El binario quedará en:
+El script lee `build.env`, descarga el commit exacto de ALTRA64 y usa la imagen Docker fijada por digest.
+
+Salidas:
 
 ```text
-dist/OS64P_NRMENU_v1.0.v64
+dist/OS64P_NRMENU_v1.0.1.v64
+dist/OS64P_NRMENU_v1.0.1.v64.sha256
+dist/BUILD_INFO.txt
 ```
 
-En macOS, Docker Desktop debe estar iniciado. En Linux, el usuario debe poder ejecutar Docker; según la instalación puede ser necesario anteponer `sudo`.
+En macOS, Docker Desktop debe estar iniciado. En Linux, el usuario debe poder ejecutar Docker; según la instalación puede ser necesario anteponer `sudo` o pertenecer al grupo `docker`.

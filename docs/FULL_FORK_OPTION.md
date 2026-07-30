@@ -31,3 +31,14 @@ git remote add upstream https://github.com/ariahiro64/altra64.git
 ## Recomendación
 
 Para la primera publicación de NovenRetro se recomienda mantener el repositorio overlay preparado en este ZIP. Un fork autocontenido es útil para archivado a largo plazo, pero duplica todo el código heredado y exige revisar con más cuidado créditos y licencia.
+
+
+## Base recomendada para una exportación reproducible
+
+La versión 1.0.1 fija la fuente upstream en:
+
+```text
+666dee10724dd725183cf2183d67e7632c73b2de
+```
+
+El script `create-full-source.ps1` utiliza automáticamente esa revisión y copia `build.env` dentro de la exportación como constancia de procedencia.

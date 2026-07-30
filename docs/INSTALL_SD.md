@@ -1,11 +1,29 @@
 # Instalar NRMenu en una tarjeta SD
 
-## Requisitos previos
+## Opción A: paquete Ready to Use
 
-- Una instalación funcional de ALTRA64/ED64 Plus.
+Para una SD nueva:
+
+1. descargá el paquete `NRMenu-v1.0.x-ED64Plus-ReadyToUse.zip` desde la [última Release](https://github.com/NovenRetro/NRMenu/releases/latest);
+2. formateá la SD en FAT32;
+3. extraé el contenido en la raíz;
+4. agregá únicamente ROMs obtenidas legalmente;
+5. expulsá la SD de forma segura.
+
+El paquete público no debería incluir ROMs, BIOS, saves personales ni arte comercial sin autorización.
+
+## Opción B: actualizar una instalación existente
+
+### Requisitos previos
+
+- Instalación funcional de ALTRA64/ED64 Plus.
 - Tarjeta SD FAT32.
 - Carpeta `ED64P` en la raíz.
-- Binario compilado en `dist/OS64P_NRMENU_v1.0.v64`.
+- Binario compilado en:
+
+```text
+dist/OS64P_NRMENU_v1.0.1.v64
+```
 
 ## Backup obligatorio
 
@@ -36,10 +54,11 @@ scripts\install-sd.cmd
 
 El script:
 
-- Verifica el ROM compilado.
-- Respalda el `OS64P.v64` anterior en `backups/`.
-- Reemplaza únicamente `D:\ED64P\OS64P.v64`.
-- Compara el SHA-256 de origen y destino.
+- lee el nombre de salida desde `build.env`;
+- verifica el ROM compilado;
+- respalda el `OS64P.v64` anterior en `backups/`;
+- reemplaza únicamente `D:\ED64P\OS64P.v64`;
+- compara el SHA-256 de origen y destino.
 
 ## Instalación manual
 
@@ -52,7 +71,7 @@ D:\ED64P\OS64P.v64 → OS64P_BACKUP.v64
 2. Copiá:
 
 ```text
-dist\OS64P_NRMENU_v1.0.v64
+dist\OS64P_NRMENU_v1.0.1.v64
 ```
 
 3. Renombralo en la SD como:

@@ -1,8 +1,11 @@
 ## Resumen
 
+## Cambios realizados
+
 ## Pruebas realizadas
 
-- [ ] Compila con Docker
+- [ ] `scripts/verify-repository.cmd`
+- [ ] Compila desde limpio con Docker
 - [ ] Arranca en hardware real
 - [ ] Navegación y carpetas
 - [ ] Favoritos/Historial
@@ -13,5 +16,10 @@
 ## Hardware
 
 ## Riesgos y funciones críticas modificadas
+
+## Procedencia
+
+- [ ] No se cambió `build.env`, o el cambio de commit/digest está justificado.
+- [ ] No se incluyeron ROMs, saves, credenciales o arte protegido.
 
 ## Capturas o video
